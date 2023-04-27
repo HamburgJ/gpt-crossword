@@ -170,6 +170,7 @@ class Crossword(object):
     def get_word_locations(self):
         # sort word locs by row number
         self.word_locations.sort(key=lambda x: x.row*1000 + x.col)
+        print(len(self.word_locations))
         for i, word_loc in enumerate(self.word_locations):
             word_loc.number = i
         return self.word_locations

@@ -76,19 +76,24 @@ def generate_crossword(theme):
     clues = {
         "horizontal": [
             {
-                "number": word_numberings[i],
                 "word": word_list[i],
-                "clue": clues_list[i]
+                "clue": clues_list[i],
+                "location": {
+                    "row": word_locations[word_numberings[i]].row,
+                    "column": word_locations[word_numberings[i]].col
+                }
             } for i in range(len(word_list)) if word_locations[word_numberings[i]].vertical == False
         ],
         "vertical": [
             {
-                "number": word_numberings[i],
                 "word": word_list[i],
-                "clue": clues_list[i]
+                "clue": clues_list[i],
+                "location": {
+                    "row": word_locations[word_numberings[i]].row,
+                    "column": word_locations[word_numberings[i]].col
+                }
             } for i in range(len(word_list)) if word_locations[word_numberings[i]].vertical == True
         ]
     }
 
     return grid, word_list, clues
-
