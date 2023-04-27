@@ -95,13 +95,15 @@ function App() {
         {crossword && (
           <Row className="mt-5">
             <Col>
-              <Clues direction="Across" />{" "}
-              <CrosswordGrid
-                crosswordData={crossword}
-                userInput={userInput}
-                updateInput={updateInput}
-              />
-              <Clues direction="Down" />
+              <div className="crossword">
+                <Clues direction="Across" />{" "}
+                <CrosswordGrid
+                  crosswordData={crossword}
+                  userInput={userInput}
+                  updateInput={updateInput}
+                />
+                <Clues direction="Down" />
+              </div>
             </Col>
           </Row>
         )}
