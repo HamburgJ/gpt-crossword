@@ -1,10 +1,15 @@
 import React from "react";
+import "./index.scss";
 
-const CrosswordGrid = ({ crosswordData }) => {
+const CrosswordGrid = ({ crosswordData, userInput, updateInput }) => {
+  const handleChange = (e, rowIndex, cellIndex) => {
+    updateInput(rowIndex, cellIndex, e.target.value.toUpperCase());
+  };
+
   return (
     <div className="crossword-table">
       {crosswordData.map((row, rowIndex) => (
-        <div key={`row-${rowIndex}`} className="crossword-row">
+        <div className="crossword-row" key={`row-${rowIndex}`}>
           {row.map((cell, cellIndex) => (
             <div
               key={`cell-${rowIndex}-${cellIndex}`}
@@ -13,7 +18,13 @@ const CrosswordGrid = ({ crosswordData }) => {
               }`}
             >
               {cell !== null ? (
-                <input type="text" maxLength="1" className="crossword-input" />
+                <input
+                  type="text"
+                  maxLength="1"
+                  className="crossword-input"
+                  value={userInput[rowIndex][cellIndex]}
+                  onChange={(e) => handleChange(e, rowIndex, cellIndex)}
+                />
               ) : null}
             </div>
           ))}

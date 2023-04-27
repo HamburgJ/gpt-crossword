@@ -6,11 +6,14 @@ import Navbar from "react-bootstrap/Navbar";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import CrosswordGrid from "./CrosswordGrid";
-import Clues from './Clues';
+import Clues from "./Clues";
+import Confetti from "react-confetti";
 
 function App() {
   const [theme, setTheme] = useState("");
   const [crossword, setCrossword] = useState(null);
+  const [userInput, setUserInput] = useState([]);
+  const [statusMessage, setStatusMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e) => {
@@ -21,6 +24,11 @@ function App() {
       .then((data) => {
         console.log("SUCCESS", data);
         setCrossword(data.crossword);
+        setUserInput(
+          data.crossword.map((row) =>
+            row.map((cell) => (cell === null ? null : ""))
+          )
+        );
         setLoading(false);
       })
       .catch((error) => {
@@ -28,6 +36,32 @@ function App() {
         setLoading(false);
       });
   };
+
+  const updateInput = (rowIndex, cellIndex, value) => {
+    const updatedInput = [...userInput];
+    updatedInput[rowIndex][cellIndex] = value;
+    setUserInput(updatedInput);
+
+    if (isCrosswordComplete(updatedInput)) {
+      setStatusMessage("Congratulations! You've completed the crossword!");
+    } else {
+      setStatusMessage("Crossword not finished yet, keep trying!");
+    }
+  };
+
+  const isCrosswordComplete = (input) => {
+    for (let i = 0; i < input.length; i++) {
+      for (let j = 0; j < input[i].length; j++) {
+        if (crossword[i][j] !== null && input[i][j] !== crossword[i][j]) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
+  const isWinner =
+    statusMessage === "Congratulations! You've completed the crossword!";
 
   return (
     <>
@@ -63,13 +97,36 @@ function App() {
           </Row>
         )}
         {crossword && (
-          <div className="crossword">
-            <Clues direction="Across" />
-            <CrosswordGrid crosswordData={crossword} />
-            <Clues direction="Down" />
-          </div>
+          <Row className="mt-5">
+            <Col>
+              <div className="crossword">
+                <Clues direction="Across" />{" "}
+                <CrosswordGrid
+                  crosswordData={crossword}
+                  userInput={userInput}
+                  updateInput={updateInput}
+                />
+                <Clues direction="Down" />
+              </div>
+            </Col>
+          </Row>
+        )}
+        {statusMessage && (
+          <Row className="mt-3 justify-content-center">
+            <Col xs="auto">
+              <p className="status-message">{statusMessage}</p>
+            </Col>
+          </Row>
         )}
       </Container>
+      {isWinner && (
+        <Confetti
+          width={window.innerWidth}
+          height={window.innerHeight}
+          numberOfPieces={300}
+          recycle={false}
+        />
+      )}
     </>
   );
 }

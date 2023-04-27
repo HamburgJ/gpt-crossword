@@ -1,6 +1,6 @@
-@import '~bootswatch/dist/lumen/variables';
-@import '~bootstrap/scss/bootstrap.scss';
-@import '~bootswatch/dist/lumen/bootswatch';
+@import "~bootswatch/dist/lumen/variables";
+@import "~bootstrap/scss/bootstrap.scss";
+@import "~bootswatch/dist/lumen/bootswatch";
 
 .crossword {
   display: flex;
@@ -52,4 +52,11 @@
   text-transform: uppercase;
   font-weight: bold;
   outline: none;
+}
+
+.status-message {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #555;
+  text-align: center;
 }
