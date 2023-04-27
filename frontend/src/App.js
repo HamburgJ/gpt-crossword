@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Navbar from 'react-bootstrap/Navbar';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 function App() {
   const [theme, setTheme] = useState("");
@@ -20,24 +23,28 @@ function App() {
   };
 
   return (
-    <Container>
-      <header>
-        <h1>GPT Crossword</h1>
-      </header>
-      <Row>
-        <Col>
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="Enter theme"
-              value={theme}
-              onChange={(e) => setTheme(e.target.value)}
-            />
-            <button type="submit">Fetch Theme</button>
-          </form>
-        </Col>
-      </Row>
-    </Container>
+    <>
+      <Navbar bg="light" expand="lg">
+        <Container>
+          <Navbar.Brand href="#home">GPT Crossword</Navbar.Brand>
+        </Container>
+      </Navbar>
+      <Container>
+        <Row>
+          <Col>
+            <Form onSubmit={handleSubmit}>
+              <Form.Group className="mb-3" controlId="formCrosswordTheme">
+                <Form.Label>Theme</Form.Label>
+                <Form.Control type="text" placeholder="Enter theme" value={theme} onChange={(e) => setTheme(e.target.value)} />
+              </Form.Group>
+              <Button variant="primary" type="submit">
+                Fetch Theme
+              </Button>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 }
 
