@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Navbar from 'react-bootstrap/Navbar';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+import React, { useState } from "react";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Navbar from "react-bootstrap/Navbar";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import CrosswordGrid from "./CrosswordGrid";
 
 function App() {
   const [theme, setTheme] = useState("");
@@ -13,9 +14,10 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     fetch(`http://localhost:5000/api?theme=${theme}`)
-      .then((response) => {
-        console.log("SUCCESS", response);
-        setCrossword(response);
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("SUCCESS", data);
+        setCrossword(data.crossword);
       })
       .catch((error) => {
         console.log(error);
@@ -35,7 +37,12 @@ function App() {
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="formCrosswordTheme">
                 <Form.Label>Theme</Form.Label>
-                <Form.Control type="text" placeholder="Enter theme" value={theme} onChange={(e) => setTheme(e.target.value)} />
+                <Form.Control
+                  type="text"
+                  placeholder="Enter theme"
+                  value={theme}
+                  onChange={(e) => setTheme(e.target.value)}
+                />
               </Form.Group>
               <Button variant="primary" type="submit">
                 Fetch Theme
@@ -43,6 +50,13 @@ function App() {
             </Form>
           </Col>
         </Row>
+        {crossword && (
+          <Row className="mt-5">
+            <Col>
+              <CrosswordGrid crosswordData={crossword} />
+            </Col>
+          </Row>
+        )}
       </Container>
     </>
   );
