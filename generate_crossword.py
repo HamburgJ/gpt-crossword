@@ -22,9 +22,9 @@ def get_words(theme):
         print(e)
         return None
 
-    response_content = response.choices[0].message['content'].strip().lower()
+    response_content = response.choices[0].message['content'].strip()
     print(response_content)
-    word_list = [re.sub(r'[^a-zA-Z]', '', word) for word in response_content.split(",") if word != ""]
+    word_list = [re.sub(r'[^a-zA-Z]', '', word).upper() for word in response_content.split(",") if word != ""]
     if len(word_list) <= 1 or len(word_list) > 15:
         return None
     
@@ -66,4 +66,29 @@ def generate_crossword(theme):
     gen.grid_size()
 
     grid, word_locations = gen.gengrid()
-    return grid, word_locations, word_list, clues_list
+
+    word_numberings = {}
+    for i, word in enumerate(word_list):
+        for word_location in word_locations:
+            if word_location.word == word:
+                word_numberings[i] = word_location.number
+
+    clues = {
+        "horizontal": [
+            {
+                "number": word_numberings[i],
+                "word": word_list[i],
+                "clue": clues_list[i]
+            } for i in range(len(word_list)) if word_locations[word_numberings[i]].vertical == False
+        ],
+        "vertical": [
+            {
+                "number": word_numberings[i],
+                "word": word_list[i],
+                "clue": clues_list[i]
+            } for i in range(len(word_list)) if word_locations[word_numberings[i]].vertical == True
+        ]
+    }
+
+    return grid, word_list, clues
+

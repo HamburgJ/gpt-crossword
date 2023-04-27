@@ -29,14 +29,7 @@ class WordLocation():
         self.row = row
         self.col = col
         self.word = word
-    
-    def to_dict(self):
-        return {
-            'word': self.word,
-            'vertical': self.vertical,
-            'row': self.row,
-            'col': self.col,
-        }
+        self.number = None
 
 class Crossword(object):
     def __init__(self, rows, cols, empty=' ', available_words=[]):
@@ -175,4 +168,8 @@ class Crossword(object):
             return True
         
     def get_word_locations(self):
-        return [word_loc.to_dict() for word_loc in self.word_locations]
+        # sort word locs by row number
+        self.word_locations.sort(key=lambda x: x.row*1000 + x.col)
+        for i, word_loc in enumerate(self.word_locations):
+            word_loc.number = i
+        return self.word_locations
