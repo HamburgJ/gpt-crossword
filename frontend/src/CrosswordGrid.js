@@ -6,8 +6,6 @@ const CrosswordGrid = ({ crosswordData, userInput, updateInput, focus, onFocus }
     updateInput(rowIndex, cellIndex, e.target.value.toUpperCase());
   };
 
-  console.log("focus", focus)
-
   return (
     <div className="crossword-table">
       {crosswordData.map((row, rowIndex) => (
