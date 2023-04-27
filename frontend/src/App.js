@@ -8,6 +8,7 @@ import Button from "react-bootstrap/Button";
 import CrosswordGrid from "./CrosswordGrid";
 import Clues from "./Clues";
 import Confetti from "react-confetti";
+import Spinner from "react-bootstrap/Spinner";
 
 function App() {
   const [theme, setTheme] = useState("");
@@ -81,6 +82,7 @@ function App() {
                   placeholder="Enter theme"
                   value={theme}
                   onChange={(e) => setTheme(e.target.value)}
+                  disabled={loading}
                 />
               </Form.Group>
               <Button variant="primary" type="submit">
@@ -92,7 +94,18 @@ function App() {
         {loading && (
           <Row>
             <Col>
-              <div className="text-center">Asking GPT for clues...</div>
+              <div
+                className="text-center"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Spinner animation="border" role="status" />
+                <span>Loading...</span>
+              </div>
             </Col>
           </Row>
         )}
