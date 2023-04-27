@@ -32,8 +32,8 @@ def get_words(theme):
 
 def get_clues(theme, word_list):
     try:
-        system = "You are a New York Time's crossword puzzle creator, and you generate clues for a list of words in a crossword based around a central theme. Clues should be somewhat cryptic and very brief, yet clear once the answer is known. Clues should not use words that appear in the crossword. Clues should be similar in form to those that are seen in New York Times crossword puzzles. No clue should be more than about 6 words. Most clues should be 2 or 3 words"
-        prompt = f"The theme is {theme}.\n\nCreate a list of clues, in order, for the given words. Clues should be in a numbered list. There should be exactly as many clues as there are words.\n\nWords:\n\n{', '.join(word_list)}\n\nClues:\n\n"
+        system = "You are a New York Time's crossword puzzle creator, and you generate clues for a list of words in a crossword based around a central theme. Clues should be somewhat cryptic and very brief, yet clear once the answer is known. Clues should not use words that appear in the crossword. Clues should be similar in form to those that are seen in New York Times crossword puzzles. Clues should be 1-3 words in length. Double meanings, puns, and wordplay are encouraged, or specific references that require some knowledge of the theme."
+        prompt = f"The theme is {theme}.\n\nCreate a list of clues, in order, for the given words. Do not return any other information or explanation beside the clues. Clues should be in a numbered list. Clues should be 1 to 3 words in length. There should be exactly as many clues as there are words.\n\nWords:\n\n{', '.join(word_list)}\n\nClues:\n\n"
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": prompt},
