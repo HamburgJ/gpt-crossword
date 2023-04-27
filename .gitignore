@@ -4,3 +4,6 @@ mo/
 .DS_Store
 *.pdf
 build/
+/__pycache__/
+*.pyc
+.venv/
