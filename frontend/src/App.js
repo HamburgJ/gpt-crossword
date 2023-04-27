@@ -36,7 +36,7 @@ function App() {
           <Col>
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="formCrosswordTheme">
-                <Form.Label>Theme</Form.Label>
+                <Form.Label>What should the theme of the puzzle be?</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Enter theme"
@@ -45,7 +45,7 @@ function App() {
                 />
               </Form.Group>
               <Button variant="primary" type="submit">
-                Fetch Theme
+                Get Puzzle
               </Button>
             </Form>
           </Col>
