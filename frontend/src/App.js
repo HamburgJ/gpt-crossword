@@ -6,21 +6,26 @@ import Navbar from "react-bootstrap/Navbar";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import CrosswordGrid from "./CrosswordGrid";
+import Clues from './Clues';
 
 function App() {
   const [theme, setTheme] = useState("");
   const [crossword, setCrossword] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     fetch(`http://localhost:5000/api?theme=${theme}`)
       .then((response) => response.json())
       .then((data) => {
         console.log("SUCCESS", data);
         setCrossword(data.crossword);
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false);
       });
   };
 
@@ -50,12 +55,19 @@ function App() {
             </Form>
           </Col>
         </Row>
-        {crossword && (
-          <Row className="mt-5">
+        {loading && (
+          <Row>
             <Col>
-              <CrosswordGrid crosswordData={crossword} />
+              <div className="text-center">Asking GPT for clues...</div>
             </Col>
           </Row>
+        )}
+        {crossword && (
+          <div className="crossword">
+            <Clues direction="Across" />
+            <CrosswordGrid crosswordData={crossword} />
+            <Clues direction="Down" />
+          </div>
         )}
       </Container>
     </>
