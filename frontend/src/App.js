@@ -13,6 +13,7 @@ import Spinner from "react-bootstrap/Spinner";
 function App() {
   const [theme, setTheme] = useState("");
   const [crossword, setCrossword] = useState(null);
+  const [clues, setClues] = useState(null);
   const [userInput, setUserInput] = useState([]);
   const [statusMessage, setStatusMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -25,6 +26,7 @@ function App() {
       .then((data) => {
         console.log("SUCCESS", data);
         setCrossword(data.crossword);
+        setClues(data.clues)
         setUserInput(
           data.crossword.map((row) =>
             row.map((cell) => (cell === null ? null : ""))
@@ -113,13 +115,13 @@ function App() {
           <Row className="mt-5">
             <Col>
               <div className="crossword">
-                <Clues direction="Across" />{" "}
+                <Clues direction="Across" clues={clues.horizontal} />{" "}
                 <CrosswordGrid
                   crosswordData={crossword}
                   userInput={userInput}
                   updateInput={updateInput}
                 />
-                <Clues direction="Down" />
+                <Clues direction="Down" clues={clues.vertical} />
               </div>
             </Col>
           </Row>
