@@ -6,11 +6,12 @@ import Navbar from "react-bootstrap/Navbar";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import CrosswordGrid from "./CrosswordGrid";
-import Clues from './Clues';
 
 function App() {
   const [theme, setTheme] = useState("");
   const [crossword, setCrossword] = useState(null);
+  const [userInput, setUserInput] = useState([]);
+  const [statusMessage, setStatusMessage] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,10 +20,38 @@ function App() {
       .then((data) => {
         console.log("SUCCESS", data);
         setCrossword(data.crossword);
+        setUserInput(
+          data.crossword.map((row) =>
+            row.map((cell) => (cell === null ? null : ""))
+          )
+        );
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const updateInput = (rowIndex, cellIndex, value) => {
+    const updatedInput = [...userInput];
+    updatedInput[rowIndex][cellIndex] = value;
+    setUserInput(updatedInput);
+
+    if (isCrosswordComplete(updatedInput)) {
+      setStatusMessage("Congratulations! You've completed the crossword!");
+    } else {
+      setStatusMessage("Crossword not finished yet, keep trying!");
+    }
+  };
+
+  const isCrosswordComplete = (input) => {
+    for (let i = 0; i < input.length; i++) {
+      for (let j = 0; j < input[i].length; j++) {
+        if (crossword[i][j] !== null && input[i][j] !== crossword[i][j]) {
+          return false;
+        }
+      }
+    }
+    return true;
   };
 
   return (
@@ -52,11 +81,22 @@ function App() {
           </Col>
         </Row>
         {crossword && (
-          <div>
-            <Clues direction="Across" />
-            <CrosswordGrid crosswordData={crossword} />
-            <Clues direction="Down" />
-          </div>
+          <Row className="mt-5">
+            <Col>
+              <CrosswordGrid
+                crosswordData={crossword}
+                userInput={userInput}
+                updateInput={updateInput}
+              />
+            </Col>
+          </Row>
+        )}
+        {statusMessage && (
+          <Row className="mt-3">
+            <Col>
+              <p>{statusMessage}</p>
+            </Col>
+          </Row>
         )}
       </Container>
     </>
