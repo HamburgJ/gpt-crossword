@@ -91,4 +91,4 @@ class Genxword(object):
                     self.nrow += 2; self.ncol += 2
                     i += 1
                 else:
-                    return answer
+                    return answer, calc.get_word_locations()

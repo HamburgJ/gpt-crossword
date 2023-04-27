@@ -64,4 +64,6 @@ def generate_crossword(theme):
     gen = Genxword(auto=True, mixmode=False)
     gen.wlist(word_list, len(word_list))
     gen.grid_size()
-    return gen.gengrid(), word_list, clues_list
+
+    grid, word_locations = gen.gengrid()
+    return grid, word_locations, word_list, clues_list

@@ -23,6 +23,21 @@ import random, time, json
 from operator import itemgetter
 from collections import defaultdict
 
+class WordLocation():
+    def __init__(self, vertical, row, col, word):
+        self.vertical = vertical
+        self.row = row
+        self.col = col
+        self.word = word
+    
+    def to_dict(self):
+        return {
+            'word': self.word,
+            'vertical': self.vertical,
+            'row': self.row,
+            'col': self.col,
+        }
+
 class Crossword(object):
     def __init__(self, rows, cols, empty=' ', available_words=[]):
         self.rows = rows
@@ -30,6 +45,7 @@ class Crossword(object):
         self.empty = empty
         self.available_words = available_words
         self.let_coords = defaultdict(list)
+        self.word_locations = []
 
     def prep_grid_words(self):
         self.current_wordlist = []
@@ -52,9 +68,6 @@ class Crossword(object):
                 self.best_grid = list(self.grid)
             if len(self.best_wordlist) == wordlist_length:
                 break
-        #answer = '\n'.join([''.join(['{} '.format(c) for c in self.best_grid[r]]) for r in range(self.rows)])
-        answer = '\n'.join([''.join([u'{} '.format(c) for c in self.best_grid[r]])
-                            for r in range(self.rows)])
         return [[ c for c in self.best_grid[r]] for r in range(self.rows)]
 
     def get_coords(self, word):
@@ -151,6 +164,8 @@ class Crossword(object):
                 row += 1
             else:
                 col += 1
+        
+        self.word_locations.append(WordLocation(vertical=vertical, row=row, col=col, word=word[0]))
 
     def cell_occupied(self, row, col):
         cell = self.grid[row][col]
@@ -158,3 +173,6 @@ class Crossword(object):
             return False
         else:
             return True
+        
+    def get_word_locations(self):
+        return [word_loc.to_dict() for word_loc in self.word_locations]
