@@ -52,7 +52,7 @@ function App() {
           </Col>
         </Row>
         {crossword && (
-          <div>
+          <div className="crossword">
             <Clues direction="Across" />
             <CrosswordGrid crosswordData={crossword} />
             <Clues direction="Down" />

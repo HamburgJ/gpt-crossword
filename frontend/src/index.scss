@@ -2,11 +2,22 @@
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~bootswatch/dist/lumen/bootswatch';
 
-.crossword-table {
+.crossword {
   display: flex;
-  flex-direction: column;
-  max-width: 600px;
-  margin: 0 auto;
+  flex-flow: row wrap;
+}
+
+.crossword > * {
+  flex: 1 100%;
+}
+
+.clues {
+  flex: 1 auto;
+}
+
+.crossword-table {
+  flex: 2 0px;
+  margin: 0 10px;
 }
 
 .crossword-row {
