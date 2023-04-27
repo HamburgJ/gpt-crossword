@@ -21,8 +21,8 @@ import os
 import sys
 import gettext
 import random
-from .calculate import Crossword, Exportfiles
-from .complexstring import ComplexString
+from genxword.calculate import Crossword
+from genxword.complexstring import ComplexString
 
 base_dir = os.path.abspath(os.path.dirname(__file__))
 d = '/usr/local/share' if 'local' in base_dir.split('/') else '/usr/share'
@@ -92,14 +92,6 @@ class Genxword(object):
                     i += 1
                 else:
                     break
-            else:
-                h = input(_('Are you happy with this solution? [Y/n] '))
-                if h.strip() != _('n'):
-                    break
-                inc_gsize = input(_('And increase the grid size? [Y/n] '))
-                if inc_gsize.strip() != _('n'):
-                    self.nrow += 2;self.ncol += 2
         lang = _('Across/Down').split('/')
         message = _('The following files have been saved to your current working directory:\n')
-        exp = Exportfiles(self.nrow, self.ncol, calc.best_grid, calc.best_wordlist, '-')
-        exp.create_files(name, saveformat, lang, message)
+
