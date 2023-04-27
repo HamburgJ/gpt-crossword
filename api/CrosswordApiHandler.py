@@ -10,5 +10,5 @@ class CrosswordApiHandler(Resource):
       'theme': theme,
       'words': words,
       'clues': clues,
-      'crossword': generate_crossword(theme),
+      'crossword': crossword
       }
