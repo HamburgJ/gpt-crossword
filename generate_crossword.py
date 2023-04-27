@@ -73,9 +73,9 @@ def generate_crossword(theme):
             if word_location.word == word:
                 word_numberings[i] = word_location.number
 
-    clues = {
-        "horizontal": [
+    horizontal_clues = [
             {
+                "number": word_numberings[i] + 1,
                 "word": word_list[i],
                 "clue": clues_list[i],
                 "location": {
@@ -83,9 +83,11 @@ def generate_crossword(theme):
                     "column": word_locations[word_numberings[i]].col
                 }
             } for i in range(len(word_list)) if word_locations[word_numberings[i]].vertical == False
-        ],
-        "vertical": [
+        ]
+    
+    vertical_clues = [
             {
+                "number": word_numberings[i] + 1,
                 "word": word_list[i],
                 "clue": clues_list[i],
                 "location": {
@@ -94,6 +96,13 @@ def generate_crossword(theme):
                 }
             } for i in range(len(word_list)) if word_locations[word_numberings[i]].vertical == True
         ]
+    
+    horizontal_clues.sort(key=lambda x: x["number"])
+    vertical_clues.sort(key=lambda x: x["number"])
+
+    clues = {
+        "horizontal": horizontal_clues,
+        "vertical": vertical_clues
     }
 
     return grid, word_list, clues
