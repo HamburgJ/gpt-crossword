@@ -6,6 +6,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import CrosswordGrid from "./CrosswordGrid";
+import Clues from './Clues';
 
 function App() {
   const [theme, setTheme] = useState("");
@@ -51,11 +52,11 @@ function App() {
           </Col>
         </Row>
         {crossword && (
-          <Row className="mt-5">
-            <Col>
-              <CrosswordGrid crosswordData={crossword} />
-            </Col>
-          </Row>
+          <div>
+            <Clues direction="Across" />
+            <CrosswordGrid crosswordData={crossword} />
+            <Clues direction="Down" />
+          </div>
         )}
       </Container>
     </>

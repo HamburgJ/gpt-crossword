@@ -1,5 +1,4 @@
 import React from "react";
-import "./CrosswordGrid.css";
 
 const CrosswordGrid = ({ crosswordData }) => {
   return (
