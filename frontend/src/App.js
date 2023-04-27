@@ -6,15 +6,18 @@ import Navbar from "react-bootstrap/Navbar";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import CrosswordGrid from "./CrosswordGrid";
+import Clues from "./Clues";
 
 function App() {
   const [theme, setTheme] = useState("");
   const [crossword, setCrossword] = useState(null);
   const [userInput, setUserInput] = useState([]);
   const [statusMessage, setStatusMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     fetch(`http://localhost:5000/api?theme=${theme}`)
       .then((response) => response.json())
       .then((data) => {
@@ -25,9 +28,11 @@ function App() {
             row.map((cell) => (cell === null ? null : ""))
           )
         );
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false);
       });
   };
 
@@ -80,14 +85,23 @@ function App() {
             </Form>
           </Col>
         </Row>
+        {loading && (
+          <Row>
+            <Col>
+              <div className="text-center">Asking GPT for clues...</div>
+            </Col>
+          </Row>
+        )}
         {crossword && (
           <Row className="mt-5">
             <Col>
+              <Clues direction="Across" />{" "}
               <CrosswordGrid
                 crosswordData={crossword}
                 userInput={userInput}
                 updateInput={updateInput}
               />
+              <Clues direction="Down" />
             </Col>
           </Row>
         )}
