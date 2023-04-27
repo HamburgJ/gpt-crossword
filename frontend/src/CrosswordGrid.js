@@ -1,7 +1,7 @@
 import React from "react";
 import "./index.scss";
 
-const CrosswordGrid = ({ crosswordData, userInput, updateInput }) => {
+const CrosswordGrid = ({ crosswordData, userInput, updateInput, focus, onFocus }) => {
   const handleChange = (e, rowIndex, cellIndex) => {
     updateInput(rowIndex, cellIndex, e.target.value.toUpperCase());
   };
@@ -24,6 +24,8 @@ const CrosswordGrid = ({ crosswordData, userInput, updateInput }) => {
                   className="crossword-input"
                   value={userInput[rowIndex][cellIndex]}
                   onChange={(e) => handleChange(e, rowIndex, cellIndex)}
+                  onFocus={() => { onFocus(rowIndex, cellIndex); }}
+                  autoFocus={focus[0] === rowIndex && focus[1] === cellIndex}
                 />
               ) : null}
             </div>

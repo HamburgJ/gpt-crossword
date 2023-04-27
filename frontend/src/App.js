@@ -16,6 +16,7 @@ function App() {
   const [userInput, setUserInput] = useState([]);
   const [statusMessage, setStatusMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [focus, setFocus] = useState([null, null])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -107,6 +108,8 @@ function App() {
                   crosswordData={crossword}
                   userInput={userInput}
                   updateInput={updateInput}
+                  focus={focus}
+                  onFocus={(rowIndex, cellIndex) => { setFocus([rowIndex, cellIndex]); }}
                 />
                 <Clues direction="Down" clues={clues.vertical} />
               </div>

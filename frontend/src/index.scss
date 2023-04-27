@@ -54,6 +54,10 @@
   outline: none;
 }
 
+.crossword-input:focus {
+  background-color: $warning;
+}
+
 .status-message {
   font-size: 1.2rem;
   font-weight: bold;
