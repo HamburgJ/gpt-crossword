@@ -6,6 +6,8 @@ const CrosswordGrid = ({ crosswordData, userInput, updateInput, focus, onFocus }
     updateInput(rowIndex, cellIndex, e.target.value.toUpperCase());
   };
 
+  console.log("focus", focus)
+
   return (
     <div className="crossword-table">
       {crosswordData.map((row, rowIndex) => (
@@ -24,7 +26,7 @@ const CrosswordGrid = ({ crosswordData, userInput, updateInput, focus, onFocus }
                   className="crossword-input"
                   value={userInput[rowIndex][cellIndex]}
                   onChange={(e) => handleChange(e, rowIndex, cellIndex)}
-                  onFocus={() => { onFocus(rowIndex, cellIndex); }}
+                  onClick={() => { onFocus(rowIndex, cellIndex); }}
                   autoFocus={focus[0] === rowIndex && focus[1] === cellIndex}
                 />
               ) : null}

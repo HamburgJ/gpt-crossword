@@ -17,7 +17,8 @@ function App() {
   const [userInput, setUserInput] = useState([]);
   const [statusMessage, setStatusMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [focus, setFocus] = useState([null, null])
+  const [focus, setFocus] = useState([null, null]);
+  const [accross, setAccross] = useState(true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -51,7 +52,33 @@ function App() {
     } else {
       setStatusMessage("Crossword not finished yet, keep trying!");
     }
+
+    // move focus to the next available square if there is one
+    if (accross) {
+      if (crossword[rowIndex][cellIndex + 1] !== null) {
+        setFocus([rowIndex, cellIndex + 1]);
+      } else if (crossword[rowIndex + 1][cellIndex] !== null) {
+        setFocus([rowIndex + 1, cellIndex]);
+        setAccross(false);
+      }
+    } else {
+      if (crossword[rowIndex + 1][cellIndex] !== null) {
+        setFocus([rowIndex + 1, cellIndex]);
+      } else if (crossword[rowIndex][cellIndex + 1] !== null) {
+        setFocus([rowIndex, cellIndex + 1]);
+        setAccross(true);
+      }
+    }
   };
+
+  const handleFocus = (rowIndex, cellIndex) => {
+    const [currRow, currCol] = focus;
+    if (currRow === rowIndex && currCol === cellIndex) {
+      setAccross(!accross);
+    } else {
+      setFocus([rowIndex, cellIndex]);
+    }
+  }
 
   const isCrosswordComplete = (input) => {
     for (let i = 0; i < input.length; i++) {
@@ -122,7 +149,7 @@ function App() {
                   userInput={userInput}
                   updateInput={updateInput}
                   focus={focus}
-                  onFocus={(rowIndex, cellIndex) => { setFocus([rowIndex, cellIndex]); }}
+                  onFocus={handleFocus}
                 />
                 <Clues direction="Down" clues={clues.vertical} />
               </div>
