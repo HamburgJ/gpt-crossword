@@ -41,7 +41,7 @@
 }
 
 .white-cell {
-  background-color: white;
+  background-color: rgba($color: #fff, $alpha: 0);
 }
 
 .crossword-input {
@@ -52,10 +52,16 @@
   text-transform: uppercase;
   font-weight: bold;
   outline: none;
+  background-color: rgba($color: #fff, $alpha: 0);
 }
 
 .crossword-input:focus {
   background-color: $warning;
+}
+
+.crossword-number {
+  width: 0;
+  margin-top: -3px;
 }
 
 .status-message {
