@@ -1,9 +1,19 @@
 import React from "react";
 import "./index.scss";
 
-const CrosswordGrid = ({ crosswordData, userInput, updateInput, focus, onFocus }) => {
+const CrosswordGrid = ({ crosswordData, userInput, updateInput, focus, onFocus, clues }) => {
   const handleChange = (e, rowIndex, cellIndex) => {
     updateInput(rowIndex, cellIndex, e.target.value.toUpperCase());
+  };
+
+  const words = clues.horizontal.concat(clues.vertical);
+
+  const get_location_number = (row, col) => {
+    const word = words.find(element => element.location.row === row && element.location.column === col);
+    if (word) {
+      return word.number;
+    }
+    return null;
   };
 
   return (
@@ -18,6 +28,7 @@ const CrosswordGrid = ({ crosswordData, userInput, updateInput, focus, onFocus }
               }`}
             >
               {cell !== null ? (
+                <>
                 <input
                   type="text"
                   maxLength="1"
@@ -27,6 +38,8 @@ const CrosswordGrid = ({ crosswordData, userInput, updateInput, focus, onFocus }
                   onClick={() => { onFocus(rowIndex, cellIndex); }}
                   autoFocus={focus[0] === rowIndex && focus[1] === cellIndex}
                 />
+                {get_location_number(rowIndex, cellIndex)}
+                </>
               ) : null}
             </div>
           ))}

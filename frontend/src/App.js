@@ -148,6 +148,7 @@ function App() {
                   crosswordData={crossword}
                   userInput={userInput}
                   updateInput={updateInput}
+                  clues = {clues}
                   focus={focus}
                   onFocus={handleFocus}
                 />

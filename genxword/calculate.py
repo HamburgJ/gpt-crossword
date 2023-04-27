@@ -161,7 +161,11 @@ class Crossword(object):
             else:
                 col += 1
         
-        self.current_word_locations.append(WordLocation(vertical=vertical, row=row, col=col, word=word[0]))
+        self.current_word_locations.append(WordLocation(
+            vertical=vertical,
+            row=row if horizontal else row - len(word[0]),
+            col=col if vertical else col - len(word[0]),
+            word=word[0]))
 
     def cell_occupied(self, row, col):
         cell = self.grid[row][col]
