@@ -7,6 +7,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import CrosswordGrid from "./CrosswordGrid";
 import Clues from "./Clues";
+import Confetti from "react-confetti";
 
 function App() {
   const [theme, setTheme] = useState("");
@@ -59,6 +60,9 @@ function App() {
     return true;
   };
 
+  const isWinner =
+    statusMessage === "Congratulations! You've completed the crossword!";
+
   return (
     <>
       <Navbar bg="light" expand="lg">
@@ -108,13 +112,21 @@ function App() {
           </Row>
         )}
         {statusMessage && (
-          <Row className="mt-3">
-            <Col>
-              <p>{statusMessage}</p>
+          <Row className="mt-3 justify-content-center">
+            <Col xs="auto">
+              <p className="status-message">{statusMessage}</p>
             </Col>
           </Row>
         )}
       </Container>
+      {isWinner && (
+        <Confetti
+          width={window.innerWidth}
+          height={window.innerHeight}
+          numberOfPieces={300}
+          recycle={false}
+        />
+      )}
     </>
   );
 }
