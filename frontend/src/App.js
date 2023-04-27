@@ -5,13 +5,14 @@ import Col from 'react-bootstrap/Col';
 
 function App() {
   const [theme, setTheme] = useState("");
+  const [crossword, setCrossword] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch(`http://localhost:5000/api/${theme}`)
+    fetch(`http://localhost:5000/api?theme=${theme}`)
       .then((response) => {
         console.log("SUCCESS", response);
-        setTheme(response);
+        setCrossword(response);
       })
       .catch((error) => {
         console.log(error);
