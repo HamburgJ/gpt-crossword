@@ -1,10 +1,11 @@
 from flask_restful import Api, Resource, reqparse
+from generate_crossword import generate_crossword
 
 class CrosswordApiHandler(Resource):
   def get(self):
     return {
       'resultStatus': 'SUCCESS',
-      'message': "Hello Api Handler"
+      "crossword": generate_crossword(["hello", "world"])
       }
 
   def post(self):
