@@ -80,18 +80,15 @@ class Genxword(object):
             if len(self.wordlist[0][0]) < min(nrow, ncol):
                 self.nrow, self.ncol = nrow, ncol
 
-    def gengrid(self, name, saveformat):
+    def gengrid(self):
         i = 0
+        answer = ""
         while 1:
-            print(_('Calculating your crossword...'))
-            calc = Crossword(self.nrow, self.ncol, '-', self.wordlist)
-            print(calc.compute_crossword())
+            calc = Crossword(self.nrow, self.ncol, None, self.wordlist)
+            answer = calc.compute_crossword()
             if self.auto:
                 if float(len(calc.best_wordlist))/len(self.wordlist) < 0.9 and i < 5:
                     self.nrow += 2; self.ncol += 2
                     i += 1
                 else:
-                    break
-        lang = _('Across/Down').split('/')
-        message = _('The following files have been saved to your current working directory:\n')
-
+                    return answer
