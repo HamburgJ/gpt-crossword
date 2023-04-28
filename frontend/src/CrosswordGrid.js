@@ -21,12 +21,11 @@ const CrosswordGrid = ({ crosswordData, userInput, updateInput, focus, onFocus, 
       {crosswordData.map((row, rowIndex) => (
         <div className="crossword-row" key={`row-${rowIndex}`}>
           {row.map((cell, cellIndex) => (
-            <>
+            <React.Fragment key={`cell-wrapper-${rowIndex}-${cellIndex}`} >
               <div className="crossword-number">
                 {get_location_number(rowIndex, cellIndex)}
               </div>
               <div
-                key={`cell-${rowIndex}-${cellIndex}`}
                 className={`crossword-cell ${
                   cell === null ? "black-cell" : "white-cell"
                 }`}
@@ -43,7 +42,7 @@ const CrosswordGrid = ({ crosswordData, userInput, updateInput, focus, onFocus, 
                   />
                 ) : null}
               </div>
-            </>
+            </React.Fragment>
           ))}
         </div>
       ))}

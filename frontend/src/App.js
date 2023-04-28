@@ -23,6 +23,9 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
+    setStatusMessage("");
+    setCrossword(null);
+    setClues(null);
     fetch(`http://localhost:5000/api?theme=${theme}`)
       .then((response) => response.json())
       .then((data) => {
@@ -35,6 +38,7 @@ function App() {
           )
         );
         setLoading(false);
+        setStatusMessage("Crossword not finished yet, keep trying!");
       })
       .catch((error) => {
         console.log(error);
@@ -115,7 +119,7 @@ function App() {
                   disabled={loading}
                 />
               </Form.Group>
-              <Button variant="primary" type="submit">
+              <Button variant="primary" type="submit" disabled={loading}>
                 Get Puzzle
               </Button>
             </Form>

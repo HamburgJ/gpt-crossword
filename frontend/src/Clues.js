@@ -5,7 +5,7 @@ const Clues = ({ direction, clues }) => (
     <h2>{direction}</h2>
     <ul className="clueList">
       {clues.map((clue) => (
-        <li key={clue.number}><b>{clue.number}</b> {clue.clue}</li>
+        <li key={`${clue.number}-${direction}`}><b>{clue.number}</b> {clue.clue}</li>
       ))}
     </ul>
   </div>

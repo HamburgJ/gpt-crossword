@@ -24,12 +24,12 @@ from operator import itemgetter
 from collections import defaultdict
 
 class WordLocation():
-    def __init__(self, vertical, row, col, word):
+    def __init__(self, vertical, row, col, word, number):
         self.vertical = vertical
         self.row = row
         self.col = col
         self.word = word
-        self.number = None
+        self.number = number
 
 class Crossword(object):
     def __init__(self, rows, cols, empty=' ', available_words=[]):
@@ -38,12 +38,9 @@ class Crossword(object):
         self.empty = empty
         self.available_words = available_words
         self.let_coords = defaultdict(list)
-        self.curr_word_locations = []
-        self.best_word_locations = []
 
     def prep_grid_words(self):
         self.current_wordlist = []
-        self.current_word_locations = []
         self.let_coords.clear()
         self.grid = [[self.empty]*self.cols for i in range(self.rows)]
         self.available_words = [word[:2] for word in self.available_words]
@@ -61,7 +58,6 @@ class Crossword(object):
             if len(self.current_wordlist) > len(self.best_wordlist):
                 self.best_wordlist = list(self.current_wordlist)
                 self.best_grid = list(self.grid)
-                self.best_word_locations = list(self.current_word_locations)
             if len(self.best_wordlist) == wordlist_length:
                 break
         return [[ c for c in self.best_grid[r]] for r in range(self.rows)]
@@ -160,12 +156,6 @@ class Crossword(object):
                 row += 1
             else:
                 col += 1
-        
-        self.current_word_locations.append(WordLocation(
-            vertical=vertical,
-            row=row if horizontal else row - len(word[0]),
-            col=col if vertical else col - len(word[0]),
-            word=word[0]))
 
     def cell_occupied(self, row, col):
         cell = self.grid[row][col]
@@ -174,10 +164,29 @@ class Crossword(object):
         else:
             return True
         
+    def order_number_words(self):
+        self.best_wordlist.sort(key=itemgetter(2, 3))
+        count, icount = 1, 1
+        for word in self.best_wordlist:
+            word.append(count)
+            if icount < len(self.best_wordlist):
+                if word[2] == self.best_wordlist[icount][2] and word[3] == self.best_wordlist[icount][3]:
+                    pass
+                else:
+                    count += 1
+            icount += 1
+        
     def get_word_locations(self):
-        # sort word locs by row number
-        self.best_word_locations.sort(key=lambda x: x.row*1000 + x.col)
-        print(len(self.best_word_locations))
-        for i, word_loc in enumerate(self.best_word_locations):
-            word_loc.number = i
-        return self.best_word_locations
+        self.order_number_words()
+        word_locations = []
+        for word in self.best_wordlist:
+
+            word_locations.append(WordLocation(
+                word[4],
+                word[2],
+                word[3],
+                word[0],
+                word[5],
+            ))
+            
+        return word_locations
